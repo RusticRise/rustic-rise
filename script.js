@@ -69,9 +69,9 @@ function updateButtonStates() {
   }
 }
 
-// Ensure the function runs on page load
+// Ensure the function runs on page load and also after adding an item
 document.addEventListener("DOMContentLoaded", function () {
-  updateButtonStates();
+  updateButtonStates(); // Check limits when the page loads
 });
 
 
