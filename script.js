@@ -6,22 +6,55 @@ document.addEventListener("DOMContentLoaded", function() {
   // Global array to hold cart items
   var cart = [];
 
-  // Expose addToCart globally so inline onclicks can call it
-window.addToCart = function(id, name, price, limit) {
-  var item = cart.find(product => product.id === id);
+// Retrieve order counts from localStorage
+var orderCounts = JSON.parse(localStorage.getItem("orderCounts")) || {};
 
+window.addToCart = function(id, name, price, limit) {
+  // Ensure order count is tracked
+  if (!orderCounts[id]) {
+    orderCounts[id] = 0;
+  }
+
+  // Check if the item has reached the weekly limit
+  if (orderCounts[id] >= limit) {
+    alert("This item has reached its order limit for the week.");
+    return;
+  }
+
+  // Add to cart and update order count
+  var item = cart.find(product => product.id === id);
   if (item) {
-    if (item.quantity >= limit) {
-      alert("You can only order up to " + limit + " of " + name + ".");
-      return;
-    }
     item.quantity++;
   } else {
     cart.push({ id: id, name: name, price: price, quantity: 1, limit: limit });
   }
 
+  orderCounts[id]++; // Increase the order count
+  localStorage.setItem("orderCounts", JSON.stringify(orderCounts)); // Save to localStorage
+
   updateCartDisplay();
+  updateButtonStates(); // Disable buttons if limits are reached
 };
+
+// Function to disable "Add to Cart" buttons when the limit is reached
+function updateButtonStates() {
+  document.querySelectorAll(".product button").forEach(button => {
+    var id = button.getAttribute("onclick").match(/\d+/)[0]; // Extract product ID
+    var limit = button.getAttribute("data-limit");
+
+    if (orderCounts[id] >= limit) {
+      button.disabled = true;
+      button.textContent = "At Order Limit";
+      button.style.backgroundColor = "#ccc";
+      button.style.cursor = "not-allowed";
+    }
+  });
+}
+
+// Run on page load to check order limits
+document.addEventListener("DOMContentLoaded", function() {
+  updateButtonStates();
+});
 
 
   // Update the cart display in the DOM
