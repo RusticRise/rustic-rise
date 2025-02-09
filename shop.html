@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rustic Rise | Shop</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Rustic Rise</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <section class="shop">
+      <h2>Current Drops</h2>
+	  <p class="drop-date"><strong>Drop for February 7 Pickup</strong></p>
+      <div class="product-list">
+        <!-- Product 1 -->
+        <div class="product">
+          <h3>Classic Sourdough Rustic Loaf</h3>
+          <p>A timeless sourdough with a crisp crust and a soft, tangy interior.</p>
+          <p class="price">$10.00</p>
+          <button onclick="addToCart(1, 'Classic Sourdough Rustic Loaf', 10.00)">Add to Cart</button>
+        </div>
+        <!-- Product 2 -->
+        <div class="product">
+          <h3>Pizza Sourdough Rustic Loaf</h3>
+          <p>Infused with classic pizza flavors—perfect for toasting or dipping.</p>
+          <p class="price">$12.00</p>
+          <button onclick="addToCart(2, 'Pizza Sourdough Rustic Loaf', 12.00)">Add to Cart</button>
+        </div>
+        <!-- Product 3 -->
+        <div class="product">
+          <h3>Rustic Sourdough Cinnamon Rolls</h3>
+          <p>Soft sourdough cinnamon rolls with a rich, gooey cinnamon filling.</p>
+          <p class="price">$12.00</p>
+          <button onclick="addToCart(3, 'Rustic Sourdough Cinnamon Rolls', 12.00)">Add to Cart</button>
+        </div>
+      </div>
+    </section>
+    
+    <section class="cart-section">
+      <h2>Your Cart</h2>
+      <div id="cart">
+        <p>Your cart is empty.</p>
+      </div>
+      <!-- Refresh Notice -->
+      <p class="cart-refresh-note" style="display: none;"><strong>Note:</strong> Refresh the page to clear your cart and start over.</p>
+      
+      <!-- Place Order Button -->
+      <div class="checkout-button" style="text-align: center; margin-top: 20px;">
+        <button id="place-order" class="btn">Place Order</button>
+      </div>
+    </section>
+
+   <!-- Checkout Modal -->
+  <div id="checkout-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Place Your Order</h2>
+      <form id="checkout-form">
+        <!-- Customer Information -->
+        <label for="first-name">First Name:</label>
+        <input type="text" id="first-name" name="firstName" required>
+
+        <label for="last-name">Last Name:</label>
+        <input type="text" id="last-name" name="lastName" required>
+
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+
+        <p><em>Note: Please provide at least a phone number or an email.</em></p>
+
+        <!-- Payment Method -->
+        <p>Please select your payment method:</p>
+        <label>
+          <input type="radio" name="payment" value="Cash" required> Cash
+        </label><br>
+        <label>
+          <input type="radio" name="payment" value="Venmo" required> Venmo
+        </label><br><br>
+        
+        <button type="submit" class="btn">Submit Order</button>
+      </form>
+    </div>
+  </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 Rustic Rise. All rights reserved.</p>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>

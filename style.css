@@ -1,0 +1,287 @@
+/* Rustic Rise Styling - Matching Social Media Theme */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #FDF6F0;
+  color: #2E2E2E;
+  line-height: 1.6;
+}
+
+/* Header */
+header {
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5em;
+  color: #2E2E2E;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #8B5E3B;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #5E3B1F;
+}
+
+/* Hero Section */
+.hero {
+  background: url('sourdough-texture.jpg') center/cover no-repeat;
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #2E2E2E;
+  padding: 40px;
+}
+
+.hero h2 {
+  font-size: 2.2em;
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+}
+
+.hero p {
+  font-size: 1.2em;
+  margin-top: 10px;
+}
+
+/* Shop Section */
+.shop {
+  text-align: center;
+  padding: 40px;
+}
+
+.shop h2 {
+  font-size: 2em;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 15px;
+}
+
+.drop-date {
+  font-size: 1.3em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.product-list {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.product {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 250px;
+}
+
+.product h3 {
+  font-size: 1.3em;
+  font-family: 'Playfair Display', serif;
+}
+
+.product p {
+  font-size: 1em;
+  color: #5E3B1F;
+}
+
+button {
+  background-color: #8B5E3B;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #5E3B1F;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #E6D5C3;
+  margin-top: 20px;
+  font-size: 0.9em;
+}
+
+/* Checkout Modal Styling */
+.modal {
+  display: none; /* Hide by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  margin: 10% auto;
+  text-align: left;
+  position: relative;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modal .close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+/* Checkout Form Styling */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-content label {
+  font-weight: bold;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="tel"],
+.modal-content input[type="email"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-content p {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+}
+
+
+/* Cart Section Styling */
+.cart-section {
+  text-align: center;
+  margin: 40px auto;
+  max-width: 600px;
+}
+
+#cart table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+#cart th, #cart td {
+  padding: 10px;
+  text-align: center;
+}
+
+#cart th {
+  background-color: #e6d5c3;
+  font-weight: bold;
+}
+
+#cart td {
+  border-bottom: 1px solid #ddd;
+}
+
+#cart .total-row {
+  font-weight: bold;
+}
+
+/* Contact Form Styling */
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.contact-form textarea {
+  height: 100px;
+}
+
+.contact-form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  background-color: #8B5E3B;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background-color: #5E3B1F;
+}
+
+/* Fix for Order Confirmation Text */
+.modal-content pre {
+  white-space: pre-wrap; /* Ensures text wraps inside the box */
+  word-wrap: break-word;  /* Breaks long words to fit */
+  overflow-wrap: break-word;
+  max-width: 100%; /* Ensures text does not exceed modal width */
+}
