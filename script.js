@@ -38,7 +38,11 @@ window.addToCart = function(id, name, price, limit) {
 
 // Function to disable "Add to Cart" buttons when the limit is reached
 function updateButtonStates() {
-  document.querySelectorAll(".product button").forEach(button => {
+  var allButtons = document.querySelectorAll(".product button");
+  var limitNote = document.getElementById("order-limit-note");
+  var limitReached = false;
+
+  allButtons.forEach(button => {
     var id = button.getAttribute("onclick").match(/\d+/)[0]; // Extract product ID
     var limit = button.getAttribute("data-limit");
 
@@ -47,14 +51,23 @@ function updateButtonStates() {
       button.textContent = "At Order Limit";
       button.style.backgroundColor = "#ccc";
       button.style.cursor = "not-allowed";
+      limitReached = true; // Flag that at least one item has hit the limit
     }
   });
+
+  // Show the note if any item is at its limit
+  if (limitReached) {
+    limitNote.style.display = "block";
+  } else {
+    limitNote.style.display = "none";
+  }
 }
 
 // Run on page load to check order limits
 document.addEventListener("DOMContentLoaded", function() {
   updateButtonStates();
 });
+;
 
 
   // Update the cart display in the DOM
