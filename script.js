@@ -65,21 +65,6 @@ function updateButtonStates() {
   }
 }
 
-
-// Run limit check when page loads
-document.addEventListener("DOMContentLoaded", function () {
-  // Load stored order counts from localStorage
-  orderCounts = JSON.parse(localStorage.getItem("orderCounts")) || {};
-
-  updateButtonStates(); // Ensure limits are checked immediately
-
-  document.querySelector(".shop").classList.remove("hidden-until-ready"); // Show the shop after checking limits
-});
-
-
-
-
-
   // Update the cart display in the DOM
 	function updateCartDisplay() {
 	  var cartDiv = document.getElementById("cart");
