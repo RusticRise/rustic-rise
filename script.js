@@ -7,17 +7,22 @@ document.addEventListener("DOMContentLoaded", function() {
   var cart = [];
 
   // Expose addToCart globally so inline onclicks can call it
-  window.addToCart = function(id, name, price) {
-    var item = cart.find(function(product) {
-      return product.id === id;
-    });
-    if (item) {
-      item.quantity++;
-    } else {
-      cart.push({ id: id, name: name, price: price, quantity: 1 });
+window.addToCart = function(id, name, price, limit) {
+  var item = cart.find(product => product.id === id);
+
+  if (item) {
+    if (item.quantity >= limit) {
+      alert("You can only order up to " + limit + " of " + name + ".");
+      return;
     }
-    updateCartDisplay();
-  };
+    item.quantity++;
+  } else {
+    cart.push({ id: id, name: name, price: price, quantity: 1, limit: limit });
+  }
+
+  updateCartDisplay();
+};
+
 
   // Update the cart display in the DOM
 	function updateCartDisplay() {
