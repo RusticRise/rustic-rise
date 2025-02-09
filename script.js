@@ -44,18 +44,24 @@ function updateButtonStates() {
 
   allButtons.forEach(button => {
     var id = button.getAttribute("onclick").match(/\d+/)[0]; // Extract product ID
-    var limit = button.getAttribute("data-limit");
+    var limit = parseInt(button.getAttribute("data-limit"), 10); // Get limit as a number
+    var currentCount = orderCounts[id] ? orderCounts[id] : 0; // Get current count from localStorage
 
-    if (orderCounts[id] >= limit) {
+    if (currentCount >= limit) {
       button.disabled = true;
       button.textContent = "At Order Limit";
       button.style.backgroundColor = "#ccc";
       button.style.cursor = "not-allowed";
-      limitReached = true; // Flag that at least one item has hit the limit
+      limitReached = true; // At least one item is sold out
+    } else {
+      button.disabled = false;
+      button.textContent = "Add to Cart"; // Restore button if limit isn't reached
+      button.style.backgroundColor = "#8B5E3B";
+      button.style.cursor = "pointer";
     }
   });
 
-  // Show the note if any item is at its limit
+  // Show the order limit note only if at least one product has reached its limit
   if (limitReached) {
     limitNote.style.display = "block";
   } else {
@@ -63,11 +69,11 @@ function updateButtonStates() {
   }
 }
 
-// Run on page load to check order limits
-document.addEventListener("DOMContentLoaded", function() {
+// Ensure the function runs on page load
+document.addEventListener("DOMContentLoaded", function () {
   updateButtonStates();
 });
-;
+
 
 
   // Update the cart display in the DOM
@@ -275,4 +281,23 @@ document.addEventListener("DOMContentLoaded", function() {
       console.error("Error sending order data:", error);
     });
   }
+});
+ 
+ // Function to clear the weekly order counts
+function resetWeeklyOrders() {
+  localStorage.removeItem("orderCounts"); // Clear the stored order totals
+  alert("Weekly order limits have been reset!");
+  location.reload(); // Refresh the page so buttons update
+}
+
+// Show reset button only if accessed by an admin (edit this condition if needed)
+document.addEventListener("DOMContentLoaded", function () {
+  var resetButton = document.getElementById("reset-orders");
+
+  // Simple condition: Only show if accessed on a specific device (customize as needed)
+  if (window.location.href.includes("admin")) { 
+    resetButton.style.display = "block"; // Show the button
+  }
+
+  resetButton.addEventListener("click", resetWeeklyOrders);
 });
