@@ -57,6 +57,7 @@ function updateButtonStates() {
     }
   });
 
+  // Show or hide the order limit message
   if (limitReached) {
     limitNote.style.display = "block";
   } else {
@@ -64,10 +65,17 @@ function updateButtonStates() {
   }
 }
 
+
 // Run limit check when page loads
 document.addEventListener("DOMContentLoaded", function () {
-  updateButtonStates();
+  // Load stored order counts from localStorage
+  orderCounts = JSON.parse(localStorage.getItem("orderCounts")) || {};
+
+  updateButtonStates(); // Ensure limits are checked immediately
+
+  document.querySelector(".shop").classList.remove("hidden-until-ready"); // Show the shop after checking limits
 });
+
 
 
 
