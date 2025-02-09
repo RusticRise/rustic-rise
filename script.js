@@ -211,6 +211,15 @@ document.addEventListener("DOMContentLoaded", function () {
   updateButtonStates(); // Ensure limits are checked when the page loads
 });
 
+.hidden-until-ready {
+  display: none;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  updateButtonStates(); // Check order limits on page load
+  document.querySelector(".shop").classList.remove("hidden-until-ready"); // Show shop section
+});
+
 
   // Generate a short unique Order ID (6-character alphanumeric)
   function generateOrderID() {
