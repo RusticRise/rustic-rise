@@ -1,116 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rustic Rise | Shop</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rustic Rise | Shop</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
+
+<header>
     <h1>Rustic Rise</h1>
     <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
     </nav>
-  </header>
-  
-  <main>
-    <section class="shop hidden-until-ready">
-	  <h2>Current Drops</h2>
-	  <p id="order-limit-note" class="order-limit-note" style="display: none;">
-		<strong>Missed ordering your bread? Come back next week to order!</strong>
-	  </p>
-      <div class="product-list">
-       <!-- Product 1 -->
-		<div class="product">
-		  <h3>Classic Sourdough Rustic Loaf</h3>
-		  <p>A timeless sourdough with a crisp crust and a soft, tangy interior.</p>
-		  <p class="price">$10.00</p>
-		  <button onclick="addToCart(1, 'Classic Sourdough Rustic Loaf', 10.00, 6)" data-limit="6">Add to Cart</button>
-		</div>
+</header>
 
-		<!-- Product 2 -->
-		<div class="product">
-		  <h3>Pizza Sourdough Rustic Loaf</h3>
-		  <p>Rich cocoa and melty chocolate chips make this a decadent twist on our classic sourdough.</p>
-		  <p class="price">$12.00</p>
-		  <button onclick="addToCart(2, 'Double Chocolate Sourdough Rustic Loaf', 12.00, 6)" data-limit="6">Add to Cart</button>
-		</div>
+<main>
+    <section class="shop">
+        <h2>Current Drops</h2>
+        <p id="order-limit-note" class="order-limit-note" style="display: none;">
+            <strong>Missed ordering your bread? Come back next week to order!</strong>
+        </p>
 
-		<!-- Product 3 -->
-		<div class="product">
-		  <h3>Rustic Sourdough Cinnamon Rolls</h3>
-		  <p>Soft sourdough cinnamon rolls with a rich, gooey cinnamon filling.</p>
-		  <p class="price">$12.00</p>
-		  <button onclick="addToCart(3, 'Rustic Sourdough Cinnamon Rolls', 12.00, 4)" data-limit="4">Add to Cart</button>
-		</div>
-      </div>
+        <div class="product-list">
+            <!-- Product 1 -->
+            <div class="product">
+                <h3>Classic Sourdough Rustic Loaf</h3>
+                <p>A timeless sourdough with a crisp crust and a soft, tangy interior.</p>
+                <p class="price">$10.00</p>
+                <button class="add-to-cart" data-id="1" data-name="Classic Sourdough Rustic Loaf" data-price="10.00" data-limit="6">
+                    Add to Cart
+                </button>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product">
+                <h3>Double Chocolate Sourdough Rustic Loaf</h3>
+                <p>Rich cocoa and melty chocolate chips make this a decadent twist on our classic sourdough.</p>
+                <p class="price">$12.00</p>
+                <button class="add-to-cart" data-id="2" data-name="Double Chocolate Sourdough Rustic Loaf" data-price="12.00" data-limit="6">
+                    Add to Cart
+                </button>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product">
+                <h3>Rustic Cinnamon Rolls</h3>
+                <p>Soft sourdough cinnamon rolls with a rich, gooey cinnamon filling.</p>
+                <p class="price">$12.00</p>
+                <button class="add-to-cart" data-id="3" data-name="Rustic Cinnamon Rolls" data-price="12.00" data-limit="4">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
     </section>
-    
+
     <section class="cart-section">
-      <h2>Your Cart</h2>
-      <div id="cart">
-        <p>Your cart is empty.</p>
-      </div>
-      <!-- Refresh Notice -->
-      <p class="cart-refresh-note" style="display: none;"><strong>Note:</strong> Refresh the page to clear your cart and start over.</p>
-      
-      <!-- Place Order Button -->
-      <div class="checkout-button" style="text-align: center; margin-top: 20px;">
+        <h2>Your Cart</h2>
+        <div id="cart">
+            <p>Your cart is empty.</p>
+        </div>
         <button id="place-order" class="btn">Place Order</button>
-      </div>
     </section>
 
-   <!-- Checkout Modal -->
-  <div id="checkout-modal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Place Your Order</h2>
-      <form id="checkout-form">
-        <!-- Customer Information -->
-        <label for="first-name">First Name:</label>
-        <input type="text" id="first-name" name="firstName" required>
+    <!-- Admin Reset Orders Button -->
+    <button id="reset-orders" class="admin-reset">Reset Weekly Orders</button>
 
-        <label for="last-name">Last Name:</label>
-        <input type="text" id="last-name" name="lastName" required>
+</main>
 
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone">
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email">
-
-        <p><em>Note: Please provide at least a phone number or an email.</em></p>
-
-        <!-- Payment Method -->
-        <p>Please select your payment method:</p>
-        <label>
-          <input type="radio" name="payment" value="Cash" required> Cash
-        </label><br>
-        <label>
-          <input type="radio" name="payment" value="Venmo" required> Venmo
-        </label><br><br>
-        
-        <button type="submit" class="btn">Submit Order</button>
-      </form>
-    </div>
-  </div>
-  </main>
-  
-  <button id="reset-orders" style="display: none; margin-top: 20px; padding: 10px; background-color: #d9534f; color: white; border: none; border-radius: 5px; cursor: pointer;">
-  Reset Weekly Orders
-  </button>
-
-  
-  <footer>
+<footer>
     <p>&copy; 2025 Rustic Rise. All rights reserved.</p>
-  </footer>
-  
-  <script src="script.js"></script>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
