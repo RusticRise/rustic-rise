@@ -181,24 +181,24 @@ function updateButtonStates() {
 
   allButtons.forEach(button => {
     var id = button.getAttribute("onclick").match(/\d+/)[0]; // Extract product ID
-    var limit = parseInt(button.getAttribute("data-limit"), 10); // Get limit as a number
-    var currentCount = orderCounts[id] ? orderCounts[id] : 0; // Get current count from localStorage
+    var limit = parseInt(button.getAttribute("data-limit"), 10);
+    var currentCount = orderCounts[id] ? orderCounts[id] : 0;
 
     if (currentCount >= limit) {
       button.disabled = true;
       button.textContent = "At Order Limit";
       button.style.backgroundColor = "#ccc";
       button.style.cursor = "not-allowed";
-      limitReached = true; // At least one item is sold out
+      limitReached = true;
     } else {
       button.disabled = false;
-      button.textContent = "Add to Cart"; // Restore button if limit isn't reached
+      button.textContent = "Add to Cart";
       button.style.backgroundColor = "#8B5E3B";
       button.style.cursor = "pointer";
     }
   });
 
-  // Show the order limit note only if at least one product has reached its limit
+  // Show or hide the order limit message
   if (limitReached) {
     limitNote.style.display = "block";
   } else {
@@ -216,9 +216,14 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  updateButtonStates(); // Check order limits on page load
-  document.querySelector(".shop").classList.remove("hidden-until-ready"); // Show shop section
+  updateButtonStates();
+  
+  // Ensure the shop section is only visible after limits are checked
+  setTimeout(() => {
+    document.querySelector(".shop").classList.remove("hidden-until-ready");
+  }, 100);
 });
+
 
 
   // Generate a short unique Order ID (6-character alphanumeric)
