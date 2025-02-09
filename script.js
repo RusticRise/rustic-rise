@@ -10,9 +10,10 @@ document.addEventListener("DOMContentLoaded", function() {
 var orderCounts = JSON.parse(localStorage.getItem("orderCounts")) || {};
 
 window.addToCart = function(id, name, price, limit) {
-  // Ensure order count is tracked
+  var item = cart.find(product => product.id === id);
+
   if (!orderCounts[id]) {
-    orderCounts[id] = 0;
+    orderCounts[id] = 0; // Ensure order count is initialized
   }
 
   // Check if the item has reached the weekly limit
@@ -21,16 +22,11 @@ window.addToCart = function(id, name, price, limit) {
     return;
   }
 
-  // Add to cart and update order count
-  var item = cart.find(product => product.id === id);
   if (item) {
     item.quantity++;
   } else {
     cart.push({ id: id, name: name, price: price, quantity: 1, limit: limit });
   }
-
-  orderCounts[id]++; // Increase the order count
-  localStorage.setItem("orderCounts", JSON.stringify(orderCounts)); // Save to localStorage
 
   updateCartDisplay();
   updateButtonStates(); // Disable buttons if limits are reached
@@ -44,24 +40,23 @@ function updateButtonStates() {
 
   allButtons.forEach(button => {
     var id = button.getAttribute("onclick").match(/\d+/)[0]; // Extract product ID
-    var limit = parseInt(button.getAttribute("data-limit"), 10); // Get limit as a number
-    var currentCount = orderCounts[id] ? orderCounts[id] : 0; // Get current count from localStorage
+    var limit = parseInt(button.getAttribute("data-limit"), 10);
+    var currentCount = orderCounts[id] ? orderCounts[id] : 0;
 
     if (currentCount >= limit) {
       button.disabled = true;
       button.textContent = "At Order Limit";
       button.style.backgroundColor = "#ccc";
       button.style.cursor = "not-allowed";
-      limitReached = true; // At least one item is sold out
+      limitReached = true;
     } else {
       button.disabled = false;
-      button.textContent = "Add to Cart"; // Restore button if limit isn't reached
+      button.textContent = "Add to Cart";
       button.style.backgroundColor = "#8B5E3B";
       button.style.cursor = "pointer";
     }
   });
 
-  // Show the order limit note only if at least one product has reached its limit
   if (limitReached) {
     limitNote.style.display = "block";
   } else {
@@ -69,10 +64,11 @@ function updateButtonStates() {
   }
 }
 
-// Run on page load to check order limits
+// Run limit check when page loads
 document.addEventListener("DOMContentLoaded", function () {
-  updateButtonStates(); // Ensure limits are checked when the page loads
+  updateButtonStates();
 });
+
 
 
 
@@ -173,58 +169,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('checkout-modal').style.display = 'none';
   });
 
-  // Process the checkout form submission
-function updateButtonStates() {
-  var allButtons = document.querySelectorAll(".product button");
-  var limitNote = document.getElementById("order-limit-note");
-  var limitReached = false;
-
-  allButtons.forEach(button => {
-    var id = button.getAttribute("onclick").match(/\d+/)[0]; // Extract product ID
-    var limit = parseInt(button.getAttribute("data-limit"), 10);
-    var currentCount = orderCounts[id] ? orderCounts[id] : 0;
-
-    if (currentCount >= limit) {
-      button.disabled = true;
-      button.textContent = "At Order Limit";
-      button.style.backgroundColor = "#ccc";
-      button.style.cursor = "not-allowed";
-      limitReached = true;
-    } else {
-      button.disabled = false;
-      button.textContent = "Add to Cart";
-      button.style.backgroundColor = "#8B5E3B";
-      button.style.cursor = "pointer";
-    }
-  });
-
-  // Show or hide the order limit message
-  if (limitReached) {
-    limitNote.style.display = "block";
-  } else {
-    limitNote.style.display = "none";
-  }
-}
-
-// Run on page load to check order limits
-document.addEventListener("DOMContentLoaded", function () {
-  updateButtonStates(); // Ensure limits are checked when the page loads
-});
-
-.hidden-until-ready {
-  display: none;
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  updateButtonStates();
-  
-  // Ensure the shop section is only visible after limits are checked
-  setTimeout(() => {
-    document.querySelector(".shop").classList.remove("hidden-until-ready");
-  }, 100);
-});
-
-
 
   // Generate a short unique Order ID (6-character alphanumeric)
   function generateOrderID() {
@@ -259,20 +203,21 @@ document.addEventListener("DOMContentLoaded", function () {
 });
  
  // Function to clear the weekly order counts
+// Function to clear the weekly order counts
 function resetWeeklyOrders() {
-  localStorage.removeItem("orderCounts"); // Clear the stored order totals
+  localStorage.removeItem("orderCounts");
   alert("Weekly order limits have been reset!");
-  location.reload(); // Refresh the page so buttons update
+  location.reload();
 }
 
-// Show reset button only if accessed by an admin (edit this condition if needed)
+// Show reset button only if accessed by an admin
 document.addEventListener("DOMContentLoaded", function () {
   var resetButton = document.getElementById("reset-orders");
 
-  // Simple condition: Only show if accessed on a specific device (customize as needed)
   if (window.location.href.includes("admin")) { 
-    resetButton.style.display = "block"; // Show the button
+    resetButton.style.display = "block"; // Show button only for admin
   }
 
   resetButton.addEventListener("click", resetWeeklyOrders);
 });
+
