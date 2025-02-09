@@ -69,9 +69,9 @@ function updateButtonStates() {
   }
 }
 
-// Ensure the function runs on page load and also after adding an item
+// Run on page load to check order limits
 document.addEventListener("DOMContentLoaded", function () {
-  updateButtonStates(); // Check limits when the page loads
+  updateButtonStates(); // Ensure limits are checked when the page loads
 });
 
 
@@ -174,82 +174,43 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Process the checkout form submission
-  document.getElementById('checkout-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Retrieve customer information
-    var firstName = document.getElementById('first-name').value.trim();
-    var lastName = document.getElementById('last-name').value.trim();
-    var phone = document.getElementById('phone').value.trim();
-    var email = document.getElementById('email').value.trim();
-    
-    if (!firstName || !lastName) {
-      alert("Please enter your first and last name.");
-      return;
+function updateButtonStates() {
+  var allButtons = document.querySelectorAll(".product button");
+  var limitNote = document.getElementById("order-limit-note");
+  var limitReached = false;
+
+  allButtons.forEach(button => {
+    var id = button.getAttribute("onclick").match(/\d+/)[0]; // Extract product ID
+    var limit = parseInt(button.getAttribute("data-limit"), 10); // Get limit as a number
+    var currentCount = orderCounts[id] ? orderCounts[id] : 0; // Get current count from localStorage
+
+    if (currentCount >= limit) {
+      button.disabled = true;
+      button.textContent = "At Order Limit";
+      button.style.backgroundColor = "#ccc";
+      button.style.cursor = "not-allowed";
+      limitReached = true; // At least one item is sold out
+    } else {
+      button.disabled = false;
+      button.textContent = "Add to Cart"; // Restore button if limit isn't reached
+      button.style.backgroundColor = "#8B5E3B";
+      button.style.cursor = "pointer";
     }
-    if (!phone && !email) {
-      alert("Please provide at least a phone number or an email address.");
-      return;
-    }
-    
-    var paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-    var orderId = generateOrderID();
-    
-    // Build order summary and include pickup date info
-    var orderSummary = "Order ID: " + orderId + "\n";
-    orderSummary += "Name: " + firstName + " " + lastName + "\n";
-    if (phone) { orderSummary += "Phone: " + phone + "\n"; }
-    if (email) { orderSummary += "Email: " + email + "\n"; }
-    orderSummary += "Payment Method: " + paymentMethod + "\n";
-    
-    var pickupDate = getPickupDate();
-    var formattedPickup = pickupDate.toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-    });
-    orderSummary += "Pickup Date: " + formattedPickup + "\n\n";
-    orderSummary += "Your Order Details:\n";
-    
-    cart.forEach(function(item) {
-      orderSummary += item.quantity + " x " + item.name + " ($" + item.price.toFixed(2) + " each)\n";
-    });
-    
-    var total = cart.reduce(function(sum, item) {
-      return sum + (item.quantity * item.price);
-    }, 0);
-    orderSummary += "\nTotal: $" + total.toFixed(2) + "\n";
-    
-    if (paymentMethod === 'Venmo') {
-      orderSummary += "\n** IMPORTANT: ** When sending your Venmo payment, please include your Order ID (" + orderId + ") as the payment description.";
-    }
-    
-    // Create the order data object (includes customer info and pickup date)
-    var orderData = {
-      orderId: orderId,
-      firstName: firstName,
-      lastName: lastName,
-      phone: phone,
-      email: email,
-      paymentMethod: paymentMethod,
-      orderDetails: orderSummary,
-      total: total.toFixed(2)
-    };
-    
-    // Send the order data to Google Sheets
-    sendOrderData(orderData);
-    
-    // Replace the modal content with order confirmation details
-    document.querySelector('.modal-content').innerHTML = "<h2>Order Confirmed!</h2><pre>" 
-      + orderSummary + "</pre><button class='btn' id='close-confirmation'>Close</button>";
-    
-    // Clear the cart and update display
-    cart = [];
-    updateCartDisplay();
-    
-    document.getElementById('close-confirmation').addEventListener('click', function() {
-      document.getElementById('checkout-modal').style.display = 'none';
-      location.reload();
-    });
   });
+
+  // Show the order limit note only if at least one product has reached its limit
+  if (limitReached) {
+    limitNote.style.display = "block";
+  } else {
+    limitNote.style.display = "none";
+  }
+}
+
+// Run on page load to check order limits
+document.addEventListener("DOMContentLoaded", function () {
+  updateButtonStates(); // Ensure limits are checked when the page loads
+});
+
 
   // Generate a short unique Order ID (6-character alphanumeric)
   function generateOrderID() {
